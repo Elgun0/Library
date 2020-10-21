@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="K101BOOKDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Author">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Books" Relationship="Self.FK__Books__AuthorId__300424B4" FromRole="Authors" ToRole="Books" />
+  </EntityType>
+  <EntityType Name="Book_To_Reader">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookId" Type="Int32" />
+    <Property Name="ReaderId" Type="Int32" />
+    <Property Name="TakeDate" Type="DateTime" Precision="3" />
+    <Property Name="Deadline" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Book" Relationship="Self.FK__Book_To_R__BookI__2E1BDC42" FromRole="Book_To_Reader" ToRole="Books" />
+    <NavigationProperty Name="Reader" Relationship="Self.FK__Book_To_R__Reade__2F10007B" FromRole="Book_To_Reader" ToRole="Readers" />
+  </EntityType>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PublishDate" Type="DateTime" Precision="0" />
+    <Property Name="AuthorId" Type="Int32" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="PublishHouseID" Type="Int32" />
+    <NavigationProperty Name="Author" Relationship="Self.FK__Books__AuthorId__300424B4" FromRole="Books" ToRole="Authors" />
+    <NavigationProperty Name="Book_To_Reader" Relationship="Self.FK__Book_To_R__BookI__2E1BDC42" FromRole="Books" ToRole="Book_To_Reader" />
+    <NavigationProperty Name="PubliShHouse" Relationship="Self.FK__Books__PublishHo__30F848ED" FromRole="Books" ToRole="PubliShHouse" />
+  </EntityType>
+  <EntityType Name="Faculty">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Readers" Relationship="Self.FK__Readers__Faculty__31EC6D26" FromRole="Faculties" ToRole="Readers" />
+  </EntityType>
+  <EntityType Name="PubliShHouse">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Books" Relationship="Self.FK__Books__PublishHo__30F848ED" FromRole="PubliShHouse" ToRole="Books" />
+  </EntityType>
+  <EntityType Name="Reader">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="FacultyId" Type="Int32" />
+    <Property Name="IBN" Type="Int32" />
+    <NavigationProperty Name="Book_To_Reader" Relationship="Self.FK__Book_To_R__Reade__2F10007B" FromRole="Readers" ToRole="Book_To_Reader" />
+    <NavigationProperty Name="Faculty" Relationship="Self.FK__Readers__Faculty__31EC6D26" FromRole="Readers" ToRole="Faculties" />
+  </EntityType>
+  <EntityType Name="SelectBookReader">
+    <Key>
+      <PropertyRef Name="Book_Name" />
+      <PropertyRef Name="FullName" />
+    </Key>
+    <Property Name="Book_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Deadline" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK__Books__AuthorId__300424B4">
+    <End Role="Authors" Type="Self.Author" Multiplicity="0..1" />
+    <End Role="Books" Type="Self.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Authors">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="AuthorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Book_To_R__BookI__2E1BDC42">
+    <End Role="Books" Type="Self.Book" Multiplicity="0..1" />
+    <End Role="Book_To_Reader" Type="Self.Book_To_Reader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Books">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Book_To_Reader">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Book_To_R__Reade__2F10007B">
+    <End Role="Readers" Type="Self.Reader" Multiplicity="0..1" />
+    <End Role="Book_To_Reader" Type="Self.Book_To_Reader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Readers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Book_To_Reader">
+        <PropertyRef Name="ReaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Books__PublishHo__30F848ED">
+    <End Role="PubliShHouse" Type="Self.PubliShHouse" Multiplicity="0..1" />
+    <End Role="Books" Type="Self.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PubliShHouse">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="PublishHouseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Readers__Faculty__31EC6D26">
+    <End Role="Faculties" Type="Self.Faculty" Multiplicity="0..1" />
+    <End Role="Readers" Type="Self.Reader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Faculties">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Readers">
+        <PropertyRef Name="FacultyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BOOKDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Authors" EntityType="Self.Author" />
+    <EntitySet Name="Book_To_Reader" EntityType="Self.Book_To_Reader" />
+    <EntitySet Name="Books" EntityType="Self.Book" />
+    <EntitySet Name="Faculties" EntityType="Self.Faculty" />
+    <EntitySet Name="PubliShHouses" EntityType="Self.PubliShHouse" />
+    <EntitySet Name="Readers" EntityType="Self.Reader" />
+    <EntitySet Name="SelectBookReaders" EntityType="Self.SelectBookReader" />
+    <AssociationSet Name="FK__Books__AuthorId__300424B4" Association="Self.FK__Books__AuthorId__300424B4">
+      <End Role="Authors" EntitySet="Authors" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Book_To_R__BookI__2E1BDC42" Association="Self.FK__Book_To_R__BookI__2E1BDC42">
+      <End Role="Books" EntitySet="Books" />
+      <End Role="Book_To_Reader" EntitySet="Book_To_Reader" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Book_To_R__Reade__2F10007B" Association="Self.FK__Book_To_R__Reade__2F10007B">
+      <End Role="Readers" EntitySet="Readers" />
+      <End Role="Book_To_Reader" EntitySet="Book_To_Reader" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Books__PublishHo__30F848ED" Association="Self.FK__Books__PublishHo__30F848ED">
+      <End Role="PubliShHouse" EntitySet="PubliShHouses" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Readers__Faculty__31EC6D26" Association="Self.FK__Readers__Faculty__31EC6D26">
+      <End Role="Faculties" EntitySet="Faculties" />
+      <End Role="Readers" EntitySet="Readers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

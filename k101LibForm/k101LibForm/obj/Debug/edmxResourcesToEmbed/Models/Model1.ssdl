@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="K101BOOKDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Authors">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Book_To_Reader">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookId" Type="int" />
+    <Property Name="ReaderId" Type="int" />
+    <Property Name="TakeDate" Type="datetime" />
+    <Property Name="Deadline" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Books">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PublishDate" Type="date" />
+    <Property Name="AuthorId" Type="int" />
+    <Property Name="Amount" Type="int" />
+    <Property Name="PublishHouseID" Type="int" />
+  </EntityType>
+  <EntityType Name="Faculties">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PubliShHouse">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Readers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fullname" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="15" />
+    <Property Name="FacultyId" Type="int" />
+    <Property Name="IBN" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'K101BOOKDB.dbo.SelectBookReader' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SelectBookReader">
+    <Key>
+      <PropertyRef Name="Book Name" />
+      <PropertyRef Name="FullName" />
+    </Key>
+    <Property Name="Book Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Deadline" Type="nvarchar" MaxLength="15" />
+  </EntityType>
+  <Association Name="FK__Book_To_R__BookI__2E1BDC42">
+    <End Role="Books" Type="Self.Books" Multiplicity="0..1" />
+    <End Role="Book_To_Reader" Type="Self.Book_To_Reader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Books">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Book_To_Reader">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Book_To_R__Reade__2F10007B">
+    <End Role="Readers" Type="Self.Readers" Multiplicity="0..1" />
+    <End Role="Book_To_Reader" Type="Self.Book_To_Reader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Readers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Book_To_Reader">
+        <PropertyRef Name="ReaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Books__AuthorId__300424B4">
+    <End Role="Authors" Type="Self.Authors" Multiplicity="0..1" />
+    <End Role="Books" Type="Self.Books" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Authors">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="AuthorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Books__PublishHo__30F848ED">
+    <End Role="PubliShHouse" Type="Self.PubliShHouse" Multiplicity="0..1" />
+    <End Role="Books" Type="Self.Books" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PubliShHouse">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="PublishHouseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Readers__Faculty__31EC6D26">
+    <End Role="Faculties" Type="Self.Faculties" Multiplicity="0..1" />
+    <End Role="Readers" Type="Self.Readers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Faculties">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Readers">
+        <PropertyRef Name="FacultyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="K101BOOKDBModelStoreContainer">
+    <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Book_To_Reader" EntityType="Self.Book_To_Reader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Faculties" EntityType="Self.Faculties" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PubliShHouse" EntityType="Self.PubliShHouse" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Readers" EntityType="Self.Readers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SelectBookReader" EntityType="Self.SelectBookReader" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SelectBookReader].[Book Name] AS [Book Name], 
+    [SelectBookReader].[FullName] AS [FullName], 
+    [SelectBookReader].[Deadline] AS [Deadline]
+    FROM [dbo].[SelectBookReader] AS [SelectBookReader]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__Book_To_R__BookI__2E1BDC42" Association="Self.FK__Book_To_R__BookI__2E1BDC42">
+      <End Role="Books" EntitySet="Books" />
+      <End Role="Book_To_Reader" EntitySet="Book_To_Reader" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Book_To_R__Reade__2F10007B" Association="Self.FK__Book_To_R__Reade__2F10007B">
+      <End Role="Readers" EntitySet="Readers" />
+      <End Role="Book_To_Reader" EntitySet="Book_To_Reader" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Books__AuthorId__300424B4" Association="Self.FK__Books__AuthorId__300424B4">
+      <End Role="Authors" EntitySet="Authors" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Books__PublishHo__30F848ED" Association="Self.FK__Books__PublishHo__30F848ED">
+      <End Role="PubliShHouse" EntitySet="PubliShHouse" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Readers__Faculty__31EC6D26" Association="Self.FK__Readers__Faculty__31EC6D26">
+      <End Role="Faculties" EntitySet="Faculties" />
+      <End Role="Readers" EntitySet="Readers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
